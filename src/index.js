@@ -38,11 +38,12 @@ const MORSE_TABLE = {
 };
 
 
-var exprReg = /[0-1]{10,10}|[*]*/g;
-var letterReg = /[0-1*]{2,2}/g;
-let wordArray = [];
+
 
 function decode(expr) {
+    var exprReg = /[0-1]{10,10}|[*]*/g;
+    var letterReg = /[0-1*]{2,2}/g;
+    let wordArray = [];
     var exprArray = expr.match(exprReg);
     for (let i = 0; i < exprArray.length - 1; i++) {
         let letterArray = (exprArray[i]).match(letterReg);
@@ -63,15 +64,15 @@ function decode(expr) {
             wordArray.push(word);
         }
     }
-    let decodeMorse = "";
+    let result = "";
     for (let k = 0; k < wordArray.length; k++) {
         if (MORSE_TABLE.hasOwnProperty(wordArray[k])) {
-            decodeMorse = decodeMorse + MORSE_TABLE[wordArray[k]];
+            result = result + MORSE_TABLE[wordArray[k]];
         } else {
-            decodeMorse = decodeMorse + " ";
+            result = result + " ";
         }
     }
-    return decodeMorse;
+    return result;
 };
 
 module.exports = {
