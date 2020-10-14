@@ -37,44 +37,26 @@ const MORSE_TABLE = {
     '-----':  '0',
 };
 
-
-
+const SPACE = "**********";
 
 function decode(expr) {
-    var exprReg = /[0-1]{10,10}|[*]*/g;
-    var letterReg = /[0-1*]{2,2}/g;
-    let wordArray = [];
-    var exprArray = expr.match(exprReg);
-    for (let i = 0; i < exprArray.length - 1; i++) {
-        let letterArray = (exprArray[i]).match(letterReg);
-        if (exprArray[i] === "**********") {
-            let space = " ";
-            wordArray.push(space);
-        } else {
-            let word = "";
-            for (let j = 0; j < letterArray.length; j++) {
-                if (letterArray[j] === "10") {
-                    word = word + ".";
-                } else if (letterArray[j] === "11") {
-                    word = word + "-";
-                } else {
-                    word;
-                }
-            }
-            wordArray.push(word);
-        }
-    }
-    let result = "";
-    for (let k = 0; k < wordArray.length; k++) {
-        if (MORSE_TABLE.hasOwnProperty(wordArray[k])) {
-            result = result + MORSE_TABLE[wordArray[k]];
-        } else {
-            result = result + " ";
-        }
-    }
-    return result;
-};
+  const exprArray = expr.match(/[0-1*]{10}/g);
+
+  return exprArray
+    .map((element) => {
+      if (element === SPACE) {
+        return " ";
+      }
+      const letter = element
+        .replace(/10/g, ".")
+        .replace(/11/g, "-")
+        .replace(/0/g, "");
+
+      return MORSE_TABLE[letter];
+    })
+    .join("");
+}
 
 module.exports = {
-    decode
-}
+  decode,
+};
